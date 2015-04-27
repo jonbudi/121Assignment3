@@ -1,0 +1,22 @@
+Jonathan Budi 53397705
+
+ComputePalindromeFrequencies Analysis!
+
+O(N) - concatenating the fullString
+Avg. Case O(N), Worst Case O(N^2) - calculate the number of words in longest palindrome
+Avg. Case O(NlogN), Worst Case O(N^3) - get all palindromes
+O(NlogN) - sort palindromes
+
+Avg. Case
+
+	O(N) + O(N) + O(NlogN) + O(NlogN) = O(NlogN)
+	
+	[Or more specfically]
+	
+	O(N) + O(N * m) + O(NlogN * m) + O(NlogN) = O(NlogN * m)
+	where m = largest number of words in longest palindrome sequence
+	m is expected to be ~3 for an average document
+	
+Worst Case (for input where entire document is two-lettered palindrome repeated N times for N lines)
+
+	O(N) + O(N^2) + O(N^3) + O(NlogN) = O(N^3)
