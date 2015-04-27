@@ -53,9 +53,9 @@ public class BasicCrawlController {
 
 		/*
 		 * Be polite: Make sure that we don't send more than 1 request per
-		 * second (500 milliseconds between requests).
+		 * second
 		 */
-		config.setPolitenessDelay(500);
+		config.setPolitenessDelay(555);
 
 		/*
 		 * You can set the maximum crawl depth here. The default value is -1 for

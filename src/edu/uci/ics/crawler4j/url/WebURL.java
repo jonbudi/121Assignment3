@@ -64,6 +64,7 @@ public class WebURL implements Serializable {
 	}
 
 	public void setURL(String url) {
+		// remove all content past question mark
 		if (url.contains("?")) {
 			url = url.substring(0, url.indexOf("?"));
 		}

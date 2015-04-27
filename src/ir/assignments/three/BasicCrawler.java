@@ -31,27 +31,34 @@ import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
-/**
- * @author Yasser Ganjisaffar
- */
 public class BasicCrawler extends WebCrawler {
 
+	/** all invalid file extensions will be ignored by the crawler **/
 	private static final Pattern INVALIDEXTENSIONS = Pattern.compile(".*\\.(css|js|bmp|gif|jpe?g|jpg|ico"
 			+ "|png|tiff?|tiff|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|mkv|ogg|ogv|pdf"
 			+ "|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names|data|dat|exe|bz2|tar|msi|bin|7z"
 			+ "|psd|dmg|iso|epub|dll|cnf|tgz|sha1|thmx|mso|arff|rtf|jar|csv|rm|smil|wmv|swf|wma|zip|rar|gz"
 			+ "|java|py|c|h)$");
 
+	/** path to cache **/
 	private static final String CACHEPATH = "cache/";
-	private static final String VALIDDOMAIN = "ics.uci.edu";
-	private static int LINKSPROCESSED = 0;
-	private static int temp = 0;
-	
-	private static int MAXOUTGOINGURLSPERPAGE = 1000;
-	private static HashSet<String> tooManyUrlsSet = Util.loadTooManyUrls();
 
+	/** accept urls only from this domain **/
+	private static final String VALIDDOMAIN = "ics.uci.edu";
+
+	/** total number of links processed **/
+	private static int LINKSPROCESSED = 0;
+
+	/** allow max number of outgoing urls per page **/
+	private static int MAXOUTGOINGURLSPERPAGE = 5000;
+
+	/** allow max number of outgoing nodes from specified path **/
 	private static int MAXURLSPERPATH = 10000;
+
+	/** map of number of urls found in each specific path **/
 	private static HashMap<String, Integer> pathLinksMap = new HashMap<String, Integer>();
+
+	/** set of all urls that are considered traps **/
 	private static HashSet<String> trapsSet = Util.loadTraps();
 
 	/**
@@ -60,37 +67,54 @@ public class BasicCrawler extends WebCrawler {
 	 */
 	@Override
 	public boolean shouldVisit(Page referringPage, WebURL url) {
-		String href = url.getURL().toLowerCase();
+		String href = url.getURL();
+		href = href.replaceFirst("^(http://www\\.|http://|https://www\\.|https://|www\\.)", "").toLowerCase();
+
 		// Ignore the url if it has an extension that matches our defined set of image extensions.
 		if (INVALIDEXTENSIONS.matcher(href).matches()) {
 			return false;
 		}
 		if (referringPage.getParseData() instanceof HtmlParseData) {
 			HtmlParseData htmlParseData = (HtmlParseData) referringPage.getParseData();
+
+			// if there are too many outgoing urls in a single page
 			if (htmlParseData.getOutgoingUrls().size() > MAXOUTGOINGURLSPERPAGE) {
-				tooManyUrlsSet.add(href);
-				try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(
-						Util.TOOMANYURLSFILEPATH, true)))) {
-					out.println(href);
-					out.close();
-				} catch (IOException e) {
+				if (trapsSet.add(href)) {
+					try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(
+							Util.TRAPFILEPATH, true)))) {
+						out.println(href);
+						out.close();
+					} catch (IOException e) {
+					}
 				}
 				return false;
 			}
 
-			String urlMinusPath = href.substring(0, href.length() - url.getPath().length());
+			String urlMinusPath = "";
+			String[] split = href.split("[/]");
+			if (split.length == 1) {
+				urlMinusPath = href;
+			} else {
+				for (int i = 0; i < split.length - 1; ++i) {
+					urlMinusPath += (split[i] + "/");
+				}
+			}
+
+			// if url is considered a trap
 			if (trapsSet.contains(urlMinusPath)) {
 				return false;
 			}
 
+			// if url has too many outgoing nodes
 			if (pathLinksMap.containsKey(urlMinusPath)) {
 				if (pathLinksMap.get(urlMinusPath) > MAXURLSPERPATH) {
-					trapsSet.add(urlMinusPath);
-					try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(
-							Util.TRAPFILEPATH, true)))) {
-						out.println(urlMinusPath);
-						out.close();
-					} catch (IOException e) {
+					if (trapsSet.add(urlMinusPath)) {
+						try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(
+								Util.TRAPFILEPATH, true)))) {
+							out.println(urlMinusPath);
+							out.close();
+						} catch (IOException e) {
+						}
 					}
 				}
 				pathLinksMap.put(urlMinusPath, pathLinksMap.get(urlMinusPath) + 1);
@@ -112,19 +136,21 @@ public class BasicCrawler extends WebCrawler {
 		String url = page.getWebURL().getURL();
 		System.out.println("[" + LINKSPROCESSED + "]" + url);
 		System.out.println("TRAPS: " + trapsSet);
-		System.out.println("TOO MANY URLS: " + tooManyUrlsSet);
-
+		/*
+		for (String key : pathLinksMap.keySet()) {
+			System.out.println(key + " " + pathLinksMap.get(key));
+		}
+		*/
 		if (page.getParseData() instanceof HtmlParseData) {
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
 
 			String html = htmlParseData.getHtml();
-			//String text = htmlParseData.getText();
 			String path = CACHEPATH + url + ".html";
+
+			// write to cache if file does not exist
 			if (!new File(path).isFile()) {
 				Writer.writeTextToFile(html, path);
 			}
-			//Writer.writeTextToFile(text, CACHEPATH + url + ".txt");
-			//Writer.writeTextToFile(outgoing.toString().replace("[", "").replace("]", ""), CACHEPATH + url + "(links).csv");
 
 			++LINKSPROCESSED;
 		}

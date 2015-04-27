@@ -10,34 +10,10 @@ public class Util {
 	private static final String QUESTIONMARK = "!!!QUESTIONMARK!!!";
 	private static final String COLON = "!!!COLON!!!";
 
-	public static String TOOMANYURLSFILEPATH = "TooManyUrls.txt";
 	public static String TRAPFILEPATH = "Traps.txt";
 
 	public static String urlToPath(String url) {
 		return url.replace("?", QUESTIONMARK).replace(":", COLON);
-	}
-
-	public static HashSet<String> loadTooManyUrls() {
-		HashSet<String> set = new HashSet<String>();
-		BufferedReader br = null;
-
-		try {
-			String line;
-			br = new BufferedReader(new FileReader(TOOMANYURLSFILEPATH));
-			while ((line = br.readLine()) != null) {
-				set.add(line.trim());
-			}
-		} catch (IOException e) {
-		} finally {
-			try {
-				if (br != null) {
-					br.close();
-				}
-			} catch (IOException e) {
-			}
-		}
-
-		return set;
 	}
 
 	public static HashSet<String> loadTraps() {
