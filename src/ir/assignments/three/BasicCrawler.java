@@ -45,7 +45,8 @@ public class BasicCrawler extends WebCrawler {
 	private static final String CACHEPATH = "cache/";
 	private static final String VALIDDOMAIN = "ics.uci.edu";
 	private static int LINKSPROCESSED = 0;
-
+	private static int temp = 0;
+	
 	private static int MAXOUTGOINGURLSPERPAGE = 1000;
 	private static HashSet<String> tooManyUrlsSet = Util.loadTooManyUrls();
 
