@@ -70,10 +70,17 @@ public class BasicCrawler extends WebCrawler {
 		String href = url.getURL();
 		href = href.replaceFirst("^(http://www\\.|http://|https://www\\.|https://|www\\.)", "").toLowerCase();
 
+		String domain = url.getSubDomain().replace("www.", "") + "." + url.getDomain();
+		// if the domain is not valid
+		if (!domain.contains(VALIDDOMAIN)) {
+			return false;
+		}
+		
 		// Ignore the url if it has an extension that matches our defined set of image extensions.
 		if (INVALIDEXTENSIONS.matcher(href).matches()) {
 			return false;
 		}
+		
 		if (referringPage.getParseData() instanceof HtmlParseData) {
 			HtmlParseData htmlParseData = (HtmlParseData) referringPage.getParseData();
 
@@ -105,7 +112,7 @@ public class BasicCrawler extends WebCrawler {
 				return false;
 			}
 
-			// if url has too many outgoing nodes
+			// if url has too many outgoing nodes, consider it a trap
 			if (pathLinksMap.containsKey(urlMinusPath)) {
 				if (pathLinksMap.get(urlMinusPath) > MAXURLSPERPATH) {
 					if (trapsSet.add(urlMinusPath)) {
@@ -123,8 +130,7 @@ public class BasicCrawler extends WebCrawler {
 			}
 		}
 
-		String domain = url.getSubDomain().replace("www.", "") + "." + url.getDomain();
-		return domain.contains(VALIDDOMAIN);
+		return true;
 	}
 
 	/**

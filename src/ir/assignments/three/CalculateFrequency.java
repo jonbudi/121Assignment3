@@ -13,6 +13,7 @@ import java.util.Map;
 
 public class CalculateFrequency {
 	private static final String CACHEPATH = "cache/";
+	private static final String STOPWORDSPATH = "Stopwords.txt";
 	
 	private static List<File> getFilesInPath(String path) {
 		List<File> files = new ArrayList<File>();
@@ -36,8 +37,10 @@ public class CalculateFrequency {
 		String currentWord;
 		int count;
 		
+		Utilities.initStopWords(STOPWORDSPATH);
+		
 		for (File file : files) {
-			words = Utilities.tokenizeFile(file);
+			words = Utilities.tokenizeHTMLFile(file);
 			if (words.size() > 0) {
 				Collections.sort(words);
 				currentWord = words.get(0);

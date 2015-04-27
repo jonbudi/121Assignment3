@@ -6,6 +6,7 @@ import ir.assignments.two.helper.FrequencyHelper;
 import ir.assignments.two.helper.StringHelper;
 import ir.assignments.two.helper.TestHelper;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,7 +14,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 /**
  * A collection of utility methods for text processing.
@@ -24,6 +29,8 @@ public class Utilities {
 	 * Maximum amount of tokens to be processed
 	 */
 	private static final int MAXTOKENS = 5000000;
+
+	private static HashSet<String> stopwords = new HashSet<String>();
 
 	/**
 	 * Reads the input text file and splits it into alphanumeric tokens.
@@ -50,6 +57,7 @@ public class Utilities {
 		FileReader reader = null;
 		int c;
 		StringBuilder token = new StringBuilder();
+		String tokenString;
 		int size = 0;
 		try {
 			reader = new FileReader(input);
@@ -57,7 +65,10 @@ public class Utilities {
 				c = reader.read();
 				if (c == -1 || size >= MAXTOKENS) {
 					if (token.length() != 0) {
-						result.add(token.toString().toLowerCase());
+						tokenString = token.toString().toLowerCase();
+						if (!stopwords.contains(tokenString)) {
+							result.add(tokenString);
+						}
 					}
 					break; // EOF
 				}
@@ -67,12 +78,16 @@ public class Utilities {
 				} else {
 					if (token.length() != 0) {
 						// add accumulated token to list
-						result.add(token.toString().toLowerCase());
+						tokenString = token.toString().toLowerCase();
+						if (!stopwords.contains(tokenString)) {
+							result.add(tokenString);
+						}
 						// clear token object
 						token.delete(0, token.length());
 						++size;
-						if (size % 100000 == 0)
+						if (size % 100000 == 0) {
 							TestHelper.debugMessage("Size of Tokens List: " + size);
+						}
 					}
 				}
 			}
@@ -88,6 +103,75 @@ public class Utilities {
 			}
 		}
 		return result;
+	}
+
+	public static ArrayList<String> tokenizeHTMLFile(File input) {
+		ArrayList<String> result = new ArrayList<String>(MAXTOKENS);
+		StringBuilder token = new StringBuilder();
+		String tokenString;
+		int size = 0;
+		Document doc = null;
+
+		try {
+			doc = Jsoup.parse(input, "UTF-8", "http://example.com/");
+			for (char c : doc.body().text().toCharArray()) {
+				if (c == -1 || size >= MAXTOKENS) {
+					if (token.length() != 0) {
+						tokenString = token.toString().toLowerCase();
+						if (!stopwords.contains(tokenString)) {
+							result.add(tokenString);
+						}
+					}
+					break; // EOF
+				}
+				if (isValidChar(c)) {
+					// append c to end of accumulated token
+					token.append(c);
+				} else {
+					if (token.length() != 0) {
+						// add accumulated token to list
+						tokenString = token.toString().toLowerCase();
+						if (!stopwords.contains(tokenString)) {
+							result.add(tokenString);
+						}
+						// clear token object
+						token.delete(0, token.length());
+						++size;
+						if (size % 100000 == 0) {
+							TestHelper.debugMessage("Size of Tokens List: " + size);
+						}
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public static void initStopWords(String path) {
+		if (!stopwords.isEmpty()) {
+			return;
+		}
+		BufferedReader br = null;
+
+		try {
+			String currentLine;
+			br = new BufferedReader(new FileReader(path));
+			while ((currentLine = br.readLine()) != null) {
+				stopwords.add(currentLine.trim());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (br != null) {
+					br.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**
@@ -142,7 +226,7 @@ public class Utilities {
 	public static void printFrequencies(List<Frequency> frequencies) {
 		printFrequencies(frequencies, frequencies.size());
 	}
-	
+
 	public static void printFrequencies(List<Frequency> frequencies, int lines) {
 		PrintWriter writer = null;
 		try {
