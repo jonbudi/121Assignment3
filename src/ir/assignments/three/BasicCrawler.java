@@ -53,7 +53,7 @@ public class BasicCrawler extends WebCrawler {
 	private static int MAXOUTGOINGURLSPERPAGE = 5000;
 
 	/** allow max number of outgoing nodes from specified path **/
-	private static int MAXURLSPERPATH = 10000;
+	private static int MAXURLSPERPATH = 1000;
 
 	/** map of number of urls found in each specific path **/
 	private static HashMap<String, Integer> pathLinksMap = new HashMap<String, Integer>();

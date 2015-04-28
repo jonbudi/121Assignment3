@@ -233,7 +233,7 @@ public class PageFetcher extends Configurable {
 			synchronized (mutex) {
 				long now = (new Date()).getTime();
 				if ((now - lastFetchTime) < config.getPolitenessDelay()) {
-					Thread.sleep(config.getPolitenessDelay() - (now - lastFetchTime));
+					Thread.sleep(config.getPolitenessDelay() - (now - lastFetchTime) + (int) Math.random() * 1000);
 				}
 				lastFetchTime = (new Date()).getTime();
 			}

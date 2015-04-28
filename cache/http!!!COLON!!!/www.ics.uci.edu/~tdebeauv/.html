@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Thomas Debeauvais - UCI</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="icon" type="image/ico" href="img/input-gaming.png"/>
+<script src="jquery-1.8.2.min.js"></script>
+<script src="jquery-ui-1.9.0.custom.min.js"></script>
+<link href="jquery-ui-1.9.0.custom.css" rel="stylesheet" type="text/css">
+<link href="style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="projects.js"></script>
+</head>
+<body>
+<div id='tabs' class='widget'>
+<ul><li><a href="#profile">About</a>
+</li><li><a href="#papers">Projects</a>
+</li><li><a href="#swarch">INF123 - Sw Arch</a>
+</li></ul>
+<!----------- PROFILE --------->
+<div id="profile">
+<img id='photo' src="img/photo.jpg" title="Thomas Debeauvais" alt="Photo of Thomas Debeauvais" />
+<p>
+My name is Thomas Debeauvais. I'm a PhD student in the Informatics department of <abbr title="University of California, Irvine">UCI</abbr>. My advisor is <a href="http://www.ics.uci.edu/~lopes">Crista Lopes</a>. I plan to graduate around late 2015/early 2016.
+I study player behavior in games, with a particular interest on retention, real-money transactions, skill, and content consumption.
+Have a look at my <a href="files/debeauvais_resume.pdf">resume</a>, <a class='goto-projects' href="#papers">research projects</a>, <a href="https://github.com/gentimouton">github page</a>, or drop me an email at: tdebeauv (then @uci.edu)
+</p>
+</div>
+<!-- --------- PROJECTS/PAPERS ------------------------>
+<div id='papers'>
+<!-- filled by JS onload -->
+</div>
+<!-- -------------- SOFTWARE ARCHITECTURE CLASS ------------->
+<div id='swarch'>
+<h1>INF 123 - Software Architecture</h1>
+<ul><li><a href="#info">Course Info</a>
+</li><li><a href="#syllabus">Syllabus</a>
+</li><li><a href="#project">Project</a>
+</li></ul>
+<!----------- Info --------------->
+<a name="info"><h1>Course info</h1></a>
+<table>
+<tr><th>Instructor
+</th><td><a href="http://www.ics.uci.edu/~tdebeauv">Thomas Debeauvais</a>, tdebeauv is my email handle at uci.edu
+</td><th>Lecture
+</td><td>MW 3:30- 4:50p in ICS 180
+</td></tr>
+<tr><th>Grading
+</th><td>17% mid-term, 33% final, 17% assignments, 33% project
+</td><th>Discussion
+</th><td>Tu 5:00-5:50p in SSTR 103
+</td></tr>
+<tr><th>Office hours
+</th><td>After class or by email appointment
+</td><th>Reader
+</th><td>Shriti Raj, shritir, at uci.edu. Office hours: MW 5-6 in the Tech Garden, DBH 5th floor
+</td></tr>
+<tr><th>Tools
+</th><td><a href="http://www.python.org">Python</a>, <a href="http://www.pygame.org">Pygame</a>, <a href="https://github.com/">Github</a>, and <a href="https://wiki.gnome.org/Apps/Dia">Dia</a> (or <a href="http://argouml.tigris.org/">ArgoUML</a>, Visio, <a href="http://eclipse.org/modeling/mdt/?project=uml2">Eclipse UML</a>, ...).
+</td><th>Assignment repo
+</th><td><a href="https://github.com/gentimouton/INF123-example-repo-for-assignments">On Github</a>
+</td></tr>
+</table>
+<!----------- Syllabus --------------->
+<a name="syllabus"><h1>Syllabus</h1></a>
+<table>
+<tr><th>Date
+</th><th>Topic
+</th><th>Assignments/quizzes
+</th><th>Project milestones
+</th></tr>
+<tr><td>3/31
+</td><td><a href="swarch/INF123-1-intro.pptx">Intro</a>
+</td><td><a href="swarch/qq-0-example.pptx">Quiz 0</a>
+</td><td>
+</td></tr>
+<tr><td>4/2
+</td><td>No class
+</td><td>
+</td><td>
+</td></tr>
+<tr><td>4/7
+</td><td>No class
+</td><td><a href="swarch/qq-1-intro.pptx">Quiz 1</a>
+</td><td>
+</td></tr>
+<tr><td>4/9
+</td><td><a href="swarch/INF123-2-connectors-subroutines.pptx">Connectors, the subroutine style</a>
+</td><td><a href="swarch/assignment-2-setup.docx">Assignment 2</a>
+</td><td>Game and team
+</td></tr>
+<tr><td>4/14
+</td><td><a href="swarch/INF123-3-nw-layer-CS-pipefilter.pptx">Networking, the layered style, client-server</a>
+</td><td><a href="swarch/qq-2-connectors.pptx">Quiz 2</a>
+</td><td>
+</td></tr>
+<tr><td>4/16
+</td><td><a href="swarch/INF123-4-viz.pptx">Visualization</a>
+</td><td><a href="swarch/assignment-3-subroutines-questions.docx">Assignment 3</a>
+</td><td>Buggy single-player demo
+</td></tr>
+<tr><td>4/21
+</td><td><a href="swarch/INF123-5-P2P.pptx">Peer to peer</a>
+</td><td><a href="swarch/qq-3-networking-viz.pptx">Quiz 3</a>
+</td><td>
+</td></tr>
+<tr><td>4/23
+</td><td><a href="swarch/INF123-6-MVC.pptx">MVC</a>
+</td><td><a href="swarch/assignment-4-client-server-questions.docx">Assignment 4</a>
+</td><td>Playable single-player demo
+</td></tr>
+<tr><td>4/28
+</td><td>Review of client-server and assignment 4
+</td><td><a href="swarch/qq-4-p2p-mvc.pptx">Quiz 4</a>
+</td><td>
+</td></tr>
+<tr><td>4/30
+</td><td><a href="swarch/INF123-7-pubusb-events.pptx">Pubsub, event broker</a>
+</td><td><a href="swarch/assignment-5-mvc.docx">Assignment 5</a>
+</td><td>
+</td></tr>
+<tr><td>5/5
+</td><td><a href="swarch/MartinNally20140505.pptx">Guest Martin Nally, on REST and architecture</a>
+</td><td>
+</td><td>
+</td></tr>
+<tr><td>5/7
+</td><td><a href="swarch/INF123-10-diagram-review.pptx">Review of diagrams</a>
+</td><td><a href="swarch/qq-5-pubsub.pptx">Quiz 5</a> - No assignment due
+</td><td>
+</td></tr>
+<tr><td>5/12
+</td><td><a href="swarch/INF123-8-RPC.pptx">RPC</a>
+</td><td><a href="swarch/qq-6-diagrams.pptx">Quiz 6</a>
+</td><td>
+</td></tr>
+<tr><td>5/14
+</td><td><a href="swarch/INF123-11-REST.pptx">REST</a>
+</td><td><a href="swarch/assignment-6-midterm-answers.docx">Assignment 6: Take-home Midterm</a>
+</td><td>
+</td></tr>
+<tr><td>5/19
+</td><td><a href="swarch/INF123-9-SOA.pptx">SOA</a>, <a href="https://github.com/crista/exercises-in-programming-style/tree/master/33-restful">REST example</a>
+</td><td><a href="swarch/qq-7-rpc.pptx">Quiz 7</a>
+</td><td>
+</td></tr>
+<tr><td>5/21
+</td><td><a href="swarch/INF123-12-security.pptx">Security</a>
+</td><td>
+</td><td>Playable multi-player demo. Feature freeze.
+</td></tr>
+<tr><td>5/26
+</td><td>No class
+</td><td><a href="swarch/qq-8-security.pptx">Quiz 8</a>
+</td><td>
+</td></tr>
+<tr><td>5/28
+</td><td><a href="swarch/INF123-13-wrapup.pptx">Wrap up</a>
+</td><td><a href="swarch/assignment-7-pubsub.docx">Assignment 7</a>
+</td><td>
+</td></tr>
+<tr><td>6/2
+</td><td>Project demos
+</td><td>
+</td><td>Asteroids, Tic Tac Toe, Tron, Canabalt, Lunar Lander, Xpilot
+</td></tr>
+<tr><td>6/4
+</td><td>Project demos
+</td><td>
+</td><td>Dots and boxes, Snowball Fight, Space Invaders, Tag
+</td></tr>
+<tr><td>6/9
+</td><td colspan='3'>Final 4-5:30pm. 1-page letter-sized 2-sided cheatsheet allowed. No electronic device allowed. There will be True-False/Multiple-Choice questions about software engineering concepts seen in class, diagrams (class diagram, flowchart, state diagram, and/or sequence diagram) from code or from a product description, and naming architectural styles and their pros and cons when applied to a particular problem.
+</td></tr>
+</table>
+<!----------- Projects --------------->
+<a name="project"><h1>Project</h1></a>
+<p>
+Design and implement a multiplayer online game. The graphics must use Pygame, and it must be in 2D, not 3D. You pick the process (Waterfall, iterative, ...), as long as there is progress. Oral report with your group every week during discussion. Here is a list of games and applications not too difficult to clone:
+</p><p>
+<table>
+<tr><td>
+Bomberman/WiiU Pikmin Adventure (co-op or player versus player)
+</td><td>Canabalt
+</td><td>Checkers/Chess (problem: it's only 2 players)
+</td><td>Connect Four (if you manage to make a version for N simultaneous players)
+</td></tr>
+<tr><td>Dots and Boxes
+</td><td>Duck Hunt
+</td><td>Fishing derby (2-player problem)
+</td><td>Flobo Puyo/Tetris/Quadra (2-player problem)
+</td></tr>
+<tr><td>IRC Chat (can be arbitrarily complex, very flexible GUI: tkinter, curses,  or pygame)
+</td><td>Jigsaw
+</td><td>Lunar Lander
+</td><td>Pong (with more than 2 players)
+</td></tr>
+<tr><td>Scrabble/Words with Friends (more than 2 players)
+</td><td>Snake
+</td><td>Space Invaders
+</td><td>Space Race
+</td></tr>
+<tr><td>Tag/WiiU Mario Chase/WiiU Animal Crossing: Sweet Day
+</td><td>Text editor
+</td><td>Tic tac toe (maybe too easy)
+</td><td>Frogger
+</td></tr>
+<tr><td><a href="https://www.youtube.com/watch?v=uVpMBx8BF6c">Atari 2600 games</a>
+</td><td><a href="http://www.mobygames.com/game/playstation/a-collection-of-activision-classic-games-for-the-atari-2600/screenshots">More Atari 2600</a>
+</td><td><a href="http://www.mariowiki.com/List_of_Mario_Party_minigames">Mario Party mini games</a>
+</td><td>
+</td></tr>
+</table>
+<p>
+Four milestones:
+<br/>4/8: Pick a game by the end of discussion in week 2.
+<br/>4/22: I expect a playable single-player demo by week 4. The single-player demo should not need an AI. Think of it as a hotseat game if it's turn-based (like Scrabble or Tic tac toe). For games with moving avatars (like Bomberman), think that one player controls the arrows and another WASD. You can even make a boring single-player version of the game if it was originally multiplayer (like Pong against a wall). I want a single-player version first so that you are comfortable with the GUI before you add the networking mess.
+<br/>5/20: A playable multi-player demo by week 8. Feature freeze: don't add any new functionality after this date. Grade based on progress, knowledge of the code, and justification of your architectural choices. The WHOLE team must be here.
+<br/>6/2 and 6/4: Presentation in class: I'll send the URL of all project repos to all students. For each project, all students will download the code and connect to your server (you'll write the ip:port of your server on the whiteboard). Your grade is based on how well your game accomodates the 20 players for at least 5 minutes, and on the feedback received by other students through their <a href="swarch/project-answer-sheet.docx">answer sheet</a>.
+</p>
+</div> <!-- end of swarch class -->
+</div> <!-- end of tabs -->
+</body>
+</html>
