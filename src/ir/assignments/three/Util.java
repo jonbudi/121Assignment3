@@ -14,6 +14,20 @@ public class Util {
 	public static String urlToPath(String url) {
 		return url.replace("?", QUESTIONMARK).replace(":", COLON);
 	}
+	
+	public static String getUrlMinusPath(String href) {
+		href = href.replaceFirst("^(http://www\\.|http://|https://www\\.|https://|www\\.)", "").toLowerCase();
+		String urlMinusPath = "";
+		String[] split = href.split("[/]");
+		if (split.length == 1) {
+			urlMinusPath = href;
+		} else {
+			for (int i = 0; i < split.length - 1; ++i) {
+				urlMinusPath += (split[i] + "/");
+			}
+		}
+		return urlMinusPath;
+	}
 
 	public static HashSet<String> loadTraps() {
 		HashSet<String> set = new HashSet<String>();

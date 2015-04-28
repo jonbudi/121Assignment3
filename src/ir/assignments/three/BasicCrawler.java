@@ -97,36 +97,11 @@ public class BasicCrawler extends WebCrawler {
 				return false;
 			}
 
-			String urlMinusPath = "";
-			String[] split = href.split("[/]");
-			if (split.length == 1) {
-				urlMinusPath = href;
-			} else {
-				for (int i = 0; i < split.length - 1; ++i) {
-					urlMinusPath += (split[i] + "/");
-				}
-			}
+			String urlMinusPath = Util.getUrlMinusPath(href);
 
 			// if url is considered a trap
 			if (trapsSet.contains(urlMinusPath)) {
 				return false;
-			}
-
-			// if url has too many outgoing nodes, consider it a trap
-			if (pathLinksMap.containsKey(urlMinusPath)) {
-				if (pathLinksMap.get(urlMinusPath) > MAXURLSPERPATH) {
-					if (trapsSet.add(urlMinusPath)) {
-						try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(
-								Util.TRAPFILEPATH, true)))) {
-							out.println(urlMinusPath);
-							out.close();
-						} catch (IOException e) {
-						}
-					}
-				}
-				pathLinksMap.put(urlMinusPath, pathLinksMap.get(urlMinusPath) + 1);
-			} else {
-				pathLinksMap.put(urlMinusPath, 1);
 			}
 		}
 
@@ -156,6 +131,26 @@ public class BasicCrawler extends WebCrawler {
 			// write to cache if file does not exist
 			if (!new File(path).isFile()) {
 				Writer.writeTextToFile(html, path);
+			}
+			
+			String href = page.getWebURL().getURL();
+			String urlMinusPath = Util.getUrlMinusPath(href);
+			
+			// if url has too many outgoing nodes, consider it a trap
+			if (pathLinksMap.containsKey(urlMinusPath)) {
+				if (pathLinksMap.get(urlMinusPath) > MAXURLSPERPATH) {
+					if (trapsSet.add(urlMinusPath)) {
+						try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(
+								Util.TRAPFILEPATH, true)))) {
+							out.println(urlMinusPath);
+							out.close();
+						} catch (IOException e) {
+						}
+					}
+				}
+				pathLinksMap.put(urlMinusPath, pathLinksMap.get(urlMinusPath) + 1);
+			} else {
+				pathLinksMap.put(urlMinusPath, 1);
 			}
 
 			++LINKSPROCESSED;
