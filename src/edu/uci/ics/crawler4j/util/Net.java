@@ -22,7 +22,6 @@ public class Net {
 			while (matcher.find()) {
 				WebURL webURL = new WebURL();
 				String urlStr = matcher.group();
-				System.out.println(urlStr);
 				if (!urlStr.startsWith("http")) {
 					urlStr = "http://" + urlStr;
 				}

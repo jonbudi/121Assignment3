@@ -26,7 +26,7 @@ public class Util {
 				urlMinusPath += (split[i] + "/");
 			}
 		}
-		return urlMinusPath;
+		return urlMinusPath.toLowerCase();
 	}
 
 	public static HashSet<String> loadTraps() {

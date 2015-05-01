@@ -32,25 +32,28 @@ import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
 public class BasicCrawler extends WebCrawler {
-
+	// 31165
 	/** all invalid file extensions will be ignored by the crawler **/
 	private static final Pattern INVALIDEXTENSIONS = Pattern.compile(".*\\.(css|js|bmp|gif|jpe?g|jpg|ico"
 			+ "|png|tiff?|tiff|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|mkv|ogg|ogv|pdf"
 			+ "|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names|data|dat|exe|bz2|tar|msi|bin|7z"
 			+ "|psd|dmg|iso|epub|dll|cnf|tgz|sha1|thmx|mso|arff|rtf|jar|csv|rm|smil|wmv|swf|wma|zip|rar|gz"
-			+ "|java|py|c|h)$");
+			+ "|java|py|c|cc|cpp|h|r|pde|txt|dirs|pps|dat|lif|rle|pov|z|sql|dtd|eml|start|xml)$");
 
 	/** path to cache **/
 	private static final String CACHEPATH = "cache/";
 
 	/** accept urls only from this domain **/
 	private static final String VALIDDOMAIN = "ics.uci.edu";
+	
+	/** ignore considering paths from this exact subdomain as a trap **/
+	private static final String IGNOREPATH = "ics.uci.edu/";
 
 	/** total number of links processed **/
 	private static int LINKSPROCESSED = 0;
 
 	/** allow max number of outgoing urls per page **/
-	private static int MAXOUTGOINGURLSPERPAGE = 5000;
+	private static int MAXOUTGOINGURLSPERPAGE = 1000;
 
 	/** allow max number of outgoing nodes from specified path **/
 	private static int MAXURLSPERPATH = 1000;
@@ -86,10 +89,10 @@ public class BasicCrawler extends WebCrawler {
 
 			// if there are too many outgoing urls in a single page
 			if (htmlParseData.getOutgoingUrls().size() > MAXOUTGOINGURLSPERPAGE) {
-				if (trapsSet.add(href)) {
+				if (trapsSet.add(href.toLowerCase())) {
 					try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(
 							Util.TRAPFILEPATH, true)))) {
-						out.println(href);
+						out.println(href.toLowerCase());
 						out.close();
 					} catch (IOException e) {
 					}
@@ -100,8 +103,13 @@ public class BasicCrawler extends WebCrawler {
 			String urlMinusPath = Util.getUrlMinusPath(href);
 
 			// if url is considered a trap
-			if (trapsSet.contains(urlMinusPath)) {
+			if (trapsSet.contains(urlMinusPath) && !urlMinusPath.equals(IGNOREPATH)) {
 				return false;
+			}
+			for (String trap: trapsSet) {
+				if (urlMinusPath.contains(trap)) {
+					return false;
+				}
 			}
 		}
 
@@ -116,7 +124,6 @@ public class BasicCrawler extends WebCrawler {
 	public void visit(Page page) {
 		String url = page.getWebURL().getURL();
 		System.out.println("[" + LINKSPROCESSED + "]" + url);
-		System.out.println("TRAPS: " + trapsSet);
 		/*
 		for (String key : pathLinksMap.keySet()) {
 			System.out.println(key + " " + pathLinksMap.get(key));

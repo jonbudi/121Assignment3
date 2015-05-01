@@ -266,9 +266,7 @@ public class Utilities {
 		Frequency f;
 		for (int i = 0; i < lines; ++i) {
 			f = frequencies.get(i);
-			TestHelper.output(writer, f.getText()
-					+ FrequencyHelper.spaces(longestWordLength - f.getText().length() + 3)
-					+ f.getFrequency());
+			TestHelper.output(writer, f.getText() + "\t" + f.getFrequency());
 		}
 
 		if (writer != null) {

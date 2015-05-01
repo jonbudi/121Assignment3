@@ -1,0 +1,10 @@
+archive.ics.uci.edu/ml/datasets/
+calendar.ics.uci.edu/
+djp3-pc2.ics.uci.edu/lucicoderepository/nomaticim/
+fano.ics.uci.edu/cites/authors/
+fano.ics.uci.edu/cites/document/
+fano.ics.uci.edu/cites/publication/
+ics.uci.edu/~agelfand/figs/
+ics.uci.edu/~eppstein/junkyard/
+ics.uci.edu/~eppstein/pix/
+ics.uci.edu/prospective/

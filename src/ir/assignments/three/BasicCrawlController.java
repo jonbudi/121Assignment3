@@ -28,7 +28,7 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
  */
 public class BasicCrawlController {
 		
-	private static final String SEEDURL = "http://www.ics.uci.edu"; 
+	public static final String SEEDURL = "http://www.ics.uci.edu"; 
 
 	public static void main(String[] args) throws Exception {
 		if (args.length != 2) {
@@ -91,7 +91,7 @@ public class BasicCrawlController {
 		 * want to start a fresh crawl, you need to delete the contents of
 		 * rootFolder manually.
 		 */
-		config.setResumableCrawling(true);
+		config.setResumableCrawling(false);
 
 		/*
 		 * Instantiate the controller for this crawl.
