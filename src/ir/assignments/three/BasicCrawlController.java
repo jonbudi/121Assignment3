@@ -23,9 +23,6 @@ import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
-/**
- * @author Yasser Ganjisaffar
- */
 public class BasicCrawlController {
 		
 	public static final String SEEDURL = "http://www.ics.uci.edu"; 
@@ -50,7 +47,6 @@ public class BasicCrawlController {
 		CrawlConfig config = new CrawlConfig();
 
 		config.setCrawlStorageFolder(crawlStorageFolder);
-
 		/*
 		 * Be polite: Make sure that we don't send more than 1 request per
 		 * second

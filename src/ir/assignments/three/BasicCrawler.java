@@ -32,13 +32,13 @@ import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
 public class BasicCrawler extends WebCrawler {
-	// 31165
+	
 	/** all invalid file extensions will be ignored by the crawler **/
 	private static final Pattern INVALIDEXTENSIONS = Pattern.compile(".*\\.(css|js|bmp|gif|jpe?g|jpg|ico"
 			+ "|png|tiff?|tiff|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|mkv|ogg|ogv|pdf"
 			+ "|ps|eps|tex|ppt|pptx|doc|docx|xls|xlsx|names|data|dat|exe|bz2|tar|msi|bin|7z"
 			+ "|psd|dmg|iso|epub|dll|cnf|tgz|sha1|thmx|mso|arff|rtf|jar|csv|rm|smil|wmv|swf|wma|zip|rar|gz"
-			+ "|java|py|c|cc|cpp|h|r|pde|txt|dirs|pps|dat|lif|rle|pov|z|sql|dtd|eml|start|xml)$");
+			+ "|java|py|c|cc|cpp|h|r|pde|txt|dirs|pps|dat|lif|rle|pov|z|sql|dtd|eml|start|xml|arff)$");
 
 	/** path to cache **/
 	private static final String CACHEPATH = "cache/";
@@ -46,7 +46,11 @@ public class BasicCrawler extends WebCrawler {
 	/** accept urls only from this domain **/
 	private static final String VALIDDOMAIN = "ics.uci.edu";
 	
-	/** ignore considering paths from this exact subdomain as a trap **/
+	/**
+	 * ignore considering paths from this exact subdomain as a trap
+	 * 
+	 * NOTE: this is not the same as valid domain, since the "/" messes up some logic
+	 **/
 	private static final String IGNOREPATH = "ics.uci.edu/";
 
 	/** total number of links processed **/
@@ -71,6 +75,7 @@ public class BasicCrawler extends WebCrawler {
 	@Override
 	public boolean shouldVisit(Page referringPage, WebURL url) {
 		String href = url.getURL();
+		// replace beginning of url
 		href = href.replaceFirst("^(http://www\\.|http://|https://www\\.|https://|www\\.)", "").toLowerCase();
 
 		String domain = url.getSubDomain().replace("www.", "") + "." + url.getDomain();
@@ -124,11 +129,7 @@ public class BasicCrawler extends WebCrawler {
 	public void visit(Page page) {
 		String url = page.getWebURL().getURL();
 		System.out.println("[" + LINKSPROCESSED + "]" + url);
-		/*
-		for (String key : pathLinksMap.keySet()) {
-			System.out.println(key + " " + pathLinksMap.get(key));
-		}
-		*/
+		
 		if (page.getParseData() instanceof HtmlParseData) {
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
 

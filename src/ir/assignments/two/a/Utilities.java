@@ -114,7 +114,12 @@ public class Utilities {
 
 		try {
 			doc = Jsoup.parse(input, "UTF-8", "http://example.com/");
-			for (char c : doc.body().text().toCharArray()) {
+			if (doc == null) {
+				return result;
+			}
+			//System.out.println(doc.body().text());
+			for (char c : doc.select("body").text().replaceAll("<[^>]*>|&[^>]*;", "").toCharArray()) {
+				//for (char c : doc.select("body").text().toCharArray()) {
 				if (c == -1 || size >= MAXTOKENS) {
 					if (token.length() != 0) {
 						tokenString = token.toString().toLowerCase();
@@ -131,7 +136,8 @@ public class Utilities {
 					if (token.length() != 0) {
 						// add accumulated token to list
 						tokenString = token.toString().toLowerCase();
-						if (!stopwords.contains(tokenString)) {
+						if (!stopwords.contains(tokenString) && tokenString.length() > 2
+								&& tokenString.length() < 20) {
 							result.add(tokenString);
 						}
 						// clear token object
@@ -143,7 +149,7 @@ public class Utilities {
 					}
 				}
 			}
-		} catch (IOException e) {
+		} catch (IOException | NullPointerException e) {
 			e.printStackTrace();
 		}
 		return result;
@@ -266,7 +272,9 @@ public class Utilities {
 		Frequency f;
 		for (int i = 0; i < lines; ++i) {
 			f = frequencies.get(i);
-			TestHelper.output(writer, f.getText() + "\t" + f.getFrequency());
+			TestHelper.output(writer, f.getText()
+					+ FrequencyHelper.spaces(longestWordLength - f.getText().length() + 3)
+					+ f.getFrequency());
 		}
 
 		if (writer != null) {
